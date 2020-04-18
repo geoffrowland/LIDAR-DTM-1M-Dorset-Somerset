@@ -58,13 +58,15 @@
 
         // Base layers
         //  .. OpenStreetMap
-        var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
+        var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+	});
 
         //  .. Grey background
         var grey = L.tileLayer("");
 
         // Overlay layers (TMS)
-        var base = L.tileLayer('https://geoffrowland.github.io/EU-DEM/{z}/{x}/{y}.png', {
+        var base = L.tileLayer('https://geoffrowland.github.io/Hillshade-25m/{z}/{x}/{y}.png', {
 			tms: true, 
 			opacity: 1.0, 
 			attribution: "EU-DEM &copy; European Environment Agency (EEA) under the framework of the <a href = 'https://land.copernicus.eu/imagery-in-situ/eu-dem' target = '_blank'>Copernicus</a> programme",
@@ -78,8 +80,7 @@
 			minZoom: 12,
 			maxNativeZoom: 16
 		});
-
-         // Map
+        // Map
         var map = L.map('map', {
 	    fullscreenControl: true,
             center: [50.90843169904947, -2.8907366853532435],
@@ -90,7 +91,7 @@
         });
 
         var basemaps = {"OpenStreetMap": osm, "Grey background": grey}
-        var overlaymaps = {"EU-DEM 25m": base, "DTM 1m Dorset": lyr, "Tile grid": grid}
+        var overlaymaps = {"Hillshade 25m": base, "Hillshade 1m Dorset": lyr, "Tile grid": grid}
 
         // Add base layers
         L.control.layers(basemaps, overlaymaps, {
