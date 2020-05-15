@@ -38,23 +38,25 @@
         <script>
         /* **** Leaflet **** */
         L.GridLayer.GridDebug = L.GridLayer.extend({
-		createTile: function (coords) {
-			const tile = document.createElement('div');
-			tile.style.outline = '1px solid green';
-			tile.style.fontWeight = 'bold';
-			tile.style.fontSize = '14pt';
-			tile.innerHTML = [coords.z, coords.x, (2 ** coords.z - coords.y)-1].join('/');
-			return tile;
-		},
-	});
+				createTile: function (coords) {
+							const tile = document.createElement('div');
+							tile.style.outline = '1px solid green';
+							//tile.style.fontWeight = 'bold';
+							tile.style.fontSize = '10pt';
+							tile.innerHTML = [
+                            (coords.x/Math.pow(2,coords.z)*360-180).toFixed(6) + ' ' +
+                            (180/Math.PI*Math.atan(0.5*(Math.exp(Math.PI-2*Math.PI*coords.y/Math.pow(2,coords.z))-Math.exp(-(Math.PI-2*Math.PI*coords.y/Math.pow(2,coords.z)))))).toFixed(6),
+							coords.z + '/'+ coords.x + '/' + ((2 ** coords.z - coords.y)-1),
+							].join('<br /><br />');
+								return tile;
+				},
+		});
 
-	L.gridLayer.gridDebug = function (opts) {
-	        return new L.GridLayer.GridDebug(opts);
-	};
+		L.gridLayer.gridDebug = function (opts) {
+			return new L.GridLayer.GridDebug(opts);
+		};
 
         var grid = L.gridLayer.gridDebug();
-
-        //map.addLayer(L.gridLayer.gridDebug());
 
         // Base layers
         //  .. OpenStreetMap
@@ -77,14 +79,16 @@
 			tms: true, 
 			opacity: 1.0, 
 			attribution: "",
-			minZoom: 9,
-			maxNativeZoom: 16
+			minZoom: 10,
+			maxNativeZoom: 16,
+			bounds: L.latLngBounds([[50.569283, -2.812500],[52.160455, -2.460938]])
+			
 		});
         // Map
         var map = L.map('map', {
 	    fullscreenControl: true,
-            center: [50.90843169904947, -2.8907366853532435],
-            zoom: 16,
+            center: [50.8, -2.6],
+            zoom: 10,
             minZoom: 4,
             maxZoom: 18,
             layers: [osm, lyr]
@@ -97,9 +101,6 @@
         L.control.layers(basemaps, overlaymaps, {
 		collapsed: true
 	}).addTo(map);
-
-        // Fit to overlay bounds (SW and NE points with (lat, lon))
-        //map.fitBounds([[50.79468410632237, -2.710822353305605], [51.022179291776574, -3.070651017400882]]);
 
         </script>
 
